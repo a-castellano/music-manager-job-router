@@ -1,2 +1,5 @@
-# music-manager-job-router
-Service that enroute jobs to Wrappers and Job Manager
+# Job Route
+
+[Actual Repo](https://git.windmaker.net/musicmanager/Job-Router)
+
+Service that routes jobs to Wrappers and Job Manager
