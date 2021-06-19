@@ -73,5 +73,15 @@ func ReadConfig() (Config, error) {
 			return config, errors.New("Fatal error config: no " + requiredConfigEntity + " config was found.")
 		}
 	}
+
+	// Check Wrappers
+
+	wrapperConfig := viper.Get("wrappers")
+	wrapperConfigElementsMap := wrapperConfig.(map[string]interface{})
+
+	if len(wrapperConfigElementsMap) == 0 {
+		return config, errors.New("Fatal error reading config: no wrappers were found, at least one wrapper must be defined.")
+	}
+
 	return config, nil
 }
