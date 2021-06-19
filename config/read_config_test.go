@@ -23,8 +23,8 @@ func TestProcessServerNoDataInConfig(t *testing.T) {
 	if err == nil {
 		t.Errorf("ReadConfig method without server data config should fail.")
 	} else {
-		if err.Error() != "Fatal error config: no server host was found." {
-			t.Errorf("Error should be \"Fatal error config: no server host was found.\" but error was '%s'.", err.Error())
+		if err.Error() != "Fatal error reading config: no server host was found." {
+			t.Errorf("Error should be \"Fatal error reading config: no server host was found.\" but error was '%s'.", err.Error())
 		}
 	}
 }
@@ -35,8 +35,8 @@ func TestProcessServerNoWrappersNeitherServices(t *testing.T) {
 	if err == nil {
 		t.Errorf("ReadConfig method without wrappers data config should fail.")
 	} else {
-		if err.Error() != "Fatal error config: no wrappers config was found." {
-			t.Errorf("Error should be \"Fatal error config: no wrappers config was found.\" but error was '%s'.", err.Error())
+		if err.Error() != "Fatal error reading config: no wrappers config was found." {
+			t.Errorf("Error should be \"Fatal error reading config: no wrappers config was found.\" but error was '%s'.", err.Error())
 		}
 	}
 }
@@ -47,8 +47,8 @@ func TestProcessServerNoStatusService(t *testing.T) {
 	if err == nil {
 		t.Errorf("ReadConfig method without status service data config should fail.")
 	} else {
-		if err.Error() != "Fatal error config: no status config was found." {
-			t.Errorf("Error should be \"Fatal error config: no status config was found.\" but error was '%s'.", err.Error())
+		if err.Error() != "Fatal error reading config: no status config was found." {
+			t.Errorf("Error should be \"Fatal error reading config: no status config was found.\" but error was '%s'.", err.Error())
 		}
 	}
 }
@@ -59,8 +59,8 @@ func TestProcessServerNoStorageService(t *testing.T) {
 	if err == nil {
 		t.Errorf("ReadConfig method without status service data config should fail.")
 	} else {
-		if err.Error() != "Fatal error config: no storage config was found." {
-			t.Errorf("Error should be \"Fatal error config: no storage config was found.\" but error was '%s'.", err.Error())
+		if err.Error() != "Fatal error reading config: no storage config was found." {
+			t.Errorf("Error should be \"Fatal error reading config: no storage config was found.\" but error was '%s'.", err.Error())
 		}
 	}
 }

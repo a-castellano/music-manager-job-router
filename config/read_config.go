@@ -60,7 +60,7 @@ func ReadConfig() (Config, error) {
 
 	for _, server_variable := range serverVariables {
 		if !viper.IsSet("server." + server_variable) {
-			return config, errors.New("Fatal error config: no server " + server_variable + " was found.")
+			return config, errors.New("Fatal error reading config: no server " + server_variable + " was found.")
 		}
 	}
 
@@ -70,7 +70,7 @@ func ReadConfig() (Config, error) {
 
 	for _, requiredConfigEntity := range requiredConfigEntities {
 		if !viper.IsSet(requiredConfigEntity) {
-			return config, errors.New("Fatal error config: no " + requiredConfigEntity + " config was found.")
+			return config, errors.New("Fatal error reading config: no " + requiredConfigEntity + " config was found.")
 		}
 	}
 
