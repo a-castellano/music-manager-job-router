@@ -1,4 +1,4 @@
-mage: registry.windmaker.net:5005/a-castellano/limani/base_golang_1_16:202106191213
+image: registry.windmaker.net:5005/a-castellano/limani/base_golang_1_16:202106191213
 
 stages:
     - unit_tests
