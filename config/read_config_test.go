@@ -29,14 +29,38 @@ func TestProcessServerNoDataInConfig(t *testing.T) {
 	}
 }
 
-func TestProcessServerNoWrappersNeitherservices(t *testing.T) {
+func TestProcessServerNoWrappersNeitherServices(t *testing.T) {
 	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/server_no_wrappers_neither_services/")
 	_, err := ReadConfig()
 	if err == nil {
-		t.Errorf("ReadConfig method without server data config should fail.")
+		t.Errorf("ReadConfig method without wrappers data config should fail.")
 	} else {
 		if err.Error() != "Fatal error config: no wrappers config was found." {
 			t.Errorf("Error should be \"Fatal error config: no wrappers config was found.\" but error was '%s'.", err.Error())
+		}
+	}
+}
+
+func TestProcessServerNoStatusService(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/no_status_service/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method without status service data config should fail.")
+	} else {
+		if err.Error() != "Fatal error config: no status config was found." {
+			t.Errorf("Error should be \"Fatal error config: no status config was found.\" but error was '%s'.", err.Error())
+		}
+	}
+}
+
+func TestProcessServerNoStorageService(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/no_storage_service/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method without status service data config should fail.")
+	} else {
+		if err.Error() != "Fatal error config: no storage config was found." {
+			t.Errorf("Error should be \"Fatal error config: no storage config was found.\" but error was '%s'.", err.Error())
 		}
 	}
 }

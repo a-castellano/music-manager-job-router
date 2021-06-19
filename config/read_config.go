@@ -39,6 +39,8 @@ func ReadConfig() (Config, error) {
 
 	serverVariables := []string{"host", "port", "user", "password"}
 
+	requiredConfigEntities := []string{"wrappers", "status", "storage"}
+
 	viper := viperLib.New()
 
 	//Look for config file location defined as env var
@@ -66,5 +68,10 @@ func ReadConfig() (Config, error) {
 
 	config.Server = server
 
+	for _, requiredConfigEntity := range requiredConfigEntities {
+		if !viper.IsSet(requiredConfigEntity) {
+			return config, errors.New("Fatal error config: no " + requiredConfigEntity + " config was found.")
+		}
+	}
 	return config, nil
 }
