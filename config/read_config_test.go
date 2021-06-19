@@ -76,3 +76,15 @@ func TestProcessServerNoWrappersDefined(t *testing.T) {
 		}
 	}
 }
+
+func TestProcessWrapperInvalid(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/server_one_wrapper_invalid_config/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method wrapper valid config should fail.")
+	} else {
+		if err.Error() != "Fatal error reading config: wrapper firstwrapper has an invalid config: durable is not defined." {
+			t.Errorf("Error should be \"Fatal error reading config: wrapper firstwrapper has an invalid config: durable is not defined.\" but error was '%s'.", err.Error())
+		}
+	}
+}

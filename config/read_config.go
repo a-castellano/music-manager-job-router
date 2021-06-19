@@ -38,6 +38,7 @@ func ReadConfig() (Config, error) {
 	var envVariable string = "MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION"
 
 	serverVariables := []string{"host", "port", "user", "password"}
+	queueVariables := []string{"name", "durable", "delete_when_unused", "exclusive", "no_wait", "auto_ack"}
 
 	requiredConfigEntities := []string{"wrappers", "status", "storage"}
 
@@ -81,6 +82,14 @@ func ReadConfig() (Config, error) {
 
 	if len(wrapperConfigElementsMap) == 0 {
 		return config, errors.New("Fatal error reading config: no wrappers were found, at least one wrapper must be defined.")
+	}
+
+	for wrapperName, _ := range wrapperConfigElementsMap {
+		for _, requiredQueueVeriable := range queueVariables {
+			if !viper.IsSet("wrappers." + wrapperName + "." + requiredQueueVeriable) {
+				return config, errors.New("Fatal error reading config: wrapper " + wrapperName + " has an invalid config: " + requiredQueueVeriable + " is not defined.")
+			}
+		}
 	}
 
 	return config, nil
