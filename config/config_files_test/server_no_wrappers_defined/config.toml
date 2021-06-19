@@ -9,17 +9,6 @@ password = "pass"
 
 [status]
 name = "status"
-durable = true
-delete_when_unused = false
-exclusive = false
-no_wait = false
-auto_ack = false
 
 [storage]
 name = "storage"
-durable = true
-delete_when_unused = false
-exclusive = false
-no_wait = false
-auto_ack = false
- 
