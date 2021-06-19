@@ -125,3 +125,24 @@ code_coverage_report:
     expire_in: 1 hour
 
 
+scan:
+  stage: scan
+  image: daedalusproject/base_sonar_scanner
+  script:
+  - ls -lahrt
+  - ls -lahrt cover
+  - sonar-scanner -Dsonar.projectKey=music-manager-job-router -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.windmaker.net -Dsonar.login=${SONAR_LOGIN} -Dsonar.exclusions="*/*_test.go" -Dsonar.go.coverage.reportPaths="cover/coverage.report"
+  dependencies:
+  - coverage
+
+pages:
+  stage: deploy
+  image: registry.windmaker.net:5005/a-castellano/limani/base:202104052102
+  script:
+  - cp coverage.html public/
+  artifacts:
+    paths:
+    - public
+  dependencies:
+  - code_coverage_report
+
