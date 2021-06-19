@@ -23,5 +23,14 @@ password = "pass"
   no_wait = false
   auto_ack = false
 
+[jobmanager]
+name = "jobmanager"
+durable = true
+delete_when_unused = false
+exclusivee = false
+no_wait = false
+auto_ack = false
+
+
 [status]
 name = "status"

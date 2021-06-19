@@ -7,6 +7,14 @@ password = "pass"
 
 [wrappers]
 
+[jobmanager]
+name = "jobmanager"
+durable = true
+delete_when_unused = false
+exclusivee = false
+no_wait = false
+auto_ack = false
+
 [status]
 name = "status"
 

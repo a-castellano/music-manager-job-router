@@ -23,12 +23,11 @@ type Queue struct {
 }
 
 type Config struct {
-	Server   Server
-	Wrappers []Queue
-	Status   Queue
-	Storage  Queue
-	Outgoing Queue
-	Origins  []string
+	Server     Server
+	Wrappers   []Queue
+	Status     Queue
+	Storage    Queue
+	JobManager Queue
 }
 
 func ReadConfig() (Config, error) {
@@ -40,7 +39,7 @@ func ReadConfig() (Config, error) {
 	serverVariables := []string{"host", "port", "user", "password"}
 	queueVariables := []string{"name", "durable", "delete_when_unused", "exclusive", "no_wait", "auto_ack"}
 
-	requiredConfigEntities := []string{"wrappers", "status", "storage"}
+	requiredConfigEntities := []string{"wrappers", "status", "storage", "jobmanager"}
 
 	viper := viperLib.New()
 

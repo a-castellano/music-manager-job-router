@@ -1,5 +1,10 @@
 [server]
 
+host = "localhost"
+port = 5672
+user = "guest"
+password = "pass"
+
 [wrappers]
 
   [wrappers.firstwrapper]
@@ -18,16 +23,10 @@
   no_wait = false
   auto_ack = false
 
-[jobmanager]
-name = "jobmanager"
-durable = true
-delete_when_unused = false
-exclusivee = false
-no_wait = false
-auto_ack = false
 
 [status]
 name = "status"
+
 
 [storage]
 name = "storage"

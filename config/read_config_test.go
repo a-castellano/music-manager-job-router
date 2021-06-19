@@ -81,10 +81,22 @@ func TestProcessWrapperInvalid(t *testing.T) {
 	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/server_one_wrapper_invalid_config/")
 	_, err := ReadConfig()
 	if err == nil {
-		t.Errorf("ReadConfig method wrapper valid config should fail.")
+		t.Errorf("ReadConfig method with wrapper invalid config should fail.")
 	} else {
 		if err.Error() != "Fatal error reading config: wrapper firstwrapper has an invalid config: durable is not defined." {
 			t.Errorf("Error should be \"Fatal error reading config: wrapper firstwrapper has an invalid config: durable is not defined.\" but error was '%s'.", err.Error())
+		}
+	}
+}
+
+func TestProcessWithoutJobManagerConfig(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/no_jobmanager_service/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method without jobmanager config should fail.")
+	} else {
+		if err.Error() != "Fatal error reading config: no jobmanager config was found." {
+			t.Errorf("Error should be \"Fatal error reading config: no jobmanager config was found..\" but error was '%s'.", err.Error())
 		}
 	}
 }
