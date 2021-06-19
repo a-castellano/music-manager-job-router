@@ -137,7 +137,7 @@ scan:
 
 pages:
   stage: deploy
-  image: registry.windmaker.net:5005/a-castellano/limani/base:202104052102
+  image: registry.windmaker.net:5005/a-castellano/limani/base:202106191213
   script:
   - cp coverage.html public/
   artifacts:
