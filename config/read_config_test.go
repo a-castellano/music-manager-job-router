@@ -28,3 +28,15 @@ func TestProcessServerNoDataInConfig(t *testing.T) {
 		}
 	}
 }
+
+func TestProcessServerNoWrappersNeitherservices(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/server_no_wrappers_neither_services/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method without server data config should fail.")
+	} else {
+		if err.Error() != "Fatal error config: no wrappers config was found." {
+			t.Errorf("Error should be \"Fatal error config: no wrappers config was found.\" but error was '%s'.", err.Error())
+		}
+	}
+}

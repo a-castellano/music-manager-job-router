@@ -65,7 +65,7 @@ lint_code:
 integration_tests:
   stage: integration_tests
   services:
-    - name: registry.windmaker.net:5005/a-castellano/limani/base_rabbitmq_server:202104052102
+    - name: registry.windmaker.net:5005/a-castellano/limani/base_rabbitmq_server:202106191213
       alias: rabbitmq
   before_script:
     - export CC=/usr/bin/clang
@@ -81,7 +81,7 @@ integration_tests:
 coverage:
   stage: coverage
   services:
-    - name: registry.windmaker.net:5005/a-castellano/limani/base_rabbitmq_server:202104052102
+    - name: registry.windmaker.net:5005/a-castellano/limani/base_rabbitmq_server:202106191213
       alias: rabbitmq
   before_script:
     - export CC=/usr/bin/clang
@@ -103,7 +103,7 @@ coverage:
 code_coverage_report:
   stage: report
   services:
-    - name: registry.windmaker.net:5005/a-castellano/limani/base_rabbitmq_server:202104052102
+    - name: registry.windmaker.net:5005/a-castellano/limani/base_rabbitmq_server:202106191213
       alias: rabbitmq
   before_script:
     - export CC=/usr/bin/clang
