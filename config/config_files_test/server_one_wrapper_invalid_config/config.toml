@@ -10,8 +10,8 @@ password = "pass"
   [wrappers.firstwrapper]
   name = "firstwrapper"
 
-[jobmanager]
-name = "jobmanager"
+[jobs]
+name = "jobs"
 durable = true
 delete_when_unused = false
 exclusivee = false

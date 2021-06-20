@@ -39,7 +39,7 @@ func ReadConfig() (Config, error) {
 	serverVariables := []string{"host", "port", "user", "password"}
 	queueVariables := []string{"name", "durable", "delete_when_unused", "exclusive", "no_wait", "auto_ack"}
 
-	requiredConfigEntities := []string{"wrappers", "status", "storage", "jobmanager"}
+	requiredConfigEntities := []string{"wrappers", "status", "storage", "jobs"}
 
 	viper := viperLib.New()
 
@@ -93,8 +93,8 @@ func ReadConfig() (Config, error) {
 
 	// Check JobManager
 	for _, requiredQueueVeriable := range queueVariables {
-		if !viper.IsSet("jobmanager." + requiredQueueVeriable) {
-			return config, errors.New("Fatal error reading config: jobmanager has an invalid config: " + requiredQueueVeriable + " is not defined.")
+		if !viper.IsSet("jobs." + requiredQueueVeriable) {
+			return config, errors.New("Fatal error reading config: jobs has an invalid config: " + requiredQueueVeriable + " is not defined.")
 		}
 	}
 

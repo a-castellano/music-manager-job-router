@@ -23,8 +23,8 @@ password = "pass"
   no_wait = false
   auto_ack = false
 
-[jobmanager]
-name = "jobmanager"
+[jobs]
+name = "jobs"
 durable = true
 delete_when_unused = false
 no_wait = false

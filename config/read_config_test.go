@@ -114,25 +114,25 @@ func TestProcessWrapperValidButSecondInvalid(t *testing.T) {
 }
 
 func TestProcessWithoutJobManagerConfig(t *testing.T) {
-	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/no_jobmanager_service/")
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/no_jobs_service/")
 	_, err := ReadConfig()
 	if err == nil {
-		t.Errorf("ReadConfig method without jobmanager config should fail.")
+		t.Errorf("ReadConfig method without jobs config should fail.")
 	} else {
-		if err.Error() != "Fatal error reading config: no jobmanager config was found." {
-			t.Errorf("Error should be \"Fatal error reading config: no jobmanager config was found.\" but error was '%s'.", err.Error())
+		if err.Error() != "Fatal error reading config: no jobs config was found." {
+			t.Errorf("Error should be \"Fatal error reading config: no jobs config was found.\" but error was '%s'.", err.Error())
 		}
 	}
 }
 
 func TestProcessWithInvalidJobManagerConfig(t *testing.T) {
-	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/invalid_jobmanager_config/")
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/invalid_jobs_config/")
 	_, err := ReadConfig()
 	if err == nil {
-		t.Errorf("ReadConfig method with jobmanager invalid config should fail.")
+		t.Errorf("ReadConfig method with jobs invalid config should fail.")
 	} else {
-		if err.Error() != "Fatal error reading config: jobmanager has an invalid config: exclusive is not defined." {
-			t.Errorf("Error should be \"Fatal error reading config: jobmanager has an invalid config: exclusive is not defined.\" but error was '%s'.", err.Error())
+		if err.Error() != "Fatal error reading config: jobs has an invalid config: exclusive is not defined." {
+			t.Errorf("Error should be \"Fatal error reading config: jobs has an invalid config: exclusive is not defined.\" but error was '%s'.", err.Error())
 		}
 	}
 }
