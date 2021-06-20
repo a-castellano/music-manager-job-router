@@ -14,7 +14,7 @@
   name = "secondwrapper"
   durable = true
   delete_when_unused = false
-  exclusivee = false
+  exclusive = false
   no_wait = false
   auto_ack = false
 

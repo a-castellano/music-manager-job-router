@@ -89,6 +89,30 @@ func TestProcessWrapperInvalid(t *testing.T) {
 	}
 }
 
+func TestProcessWrapperInvalid2(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/server_one_wrapper_invalid_config2/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method with wrapper invalid config should fail.")
+	} else {
+		if err.Error() != "Fatal error reading config: wrapper firstwrapper has an invalid config: auto_ack is not defined." {
+			t.Errorf("Error should be \"Fatal error reading config: wrapper firstwrapper has an invalid config: auto_ack is not defined.\" but error was '%s'.", err.Error())
+		}
+	}
+}
+
+func TestProcessWrapperValidButSecondInvalid(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/server_one_wrapper_second_invalid/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method with wrapper invalid config should fail.")
+	} else {
+		if err.Error() != "Fatal error reading config: wrapper secondwrapper has an invalid config: exclusive is not defined." {
+			t.Errorf("Error should be \"Fatal error reading config: wrapper secondwrapper has an invalid config: exclusive is not defined..\" but error was '%s'.", err.Error())
+		}
+	}
+}
+
 func TestProcessWithoutJobManagerConfig(t *testing.T) {
 	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/no_jobmanager_service/")
 	_, err := ReadConfig()
