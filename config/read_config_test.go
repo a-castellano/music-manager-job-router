@@ -131,7 +131,7 @@ func TestProcessWithInvalidJobManagerConfig(t *testing.T) {
 	if err == nil {
 		t.Errorf("ReadConfig method with jobmanager invalid config should fail.")
 	} else {
-		if err.Error() != "Fatal error reading config: no jobmanager config was found." {
+		if err.Error() != "Fatal error reading config: jobmanager has an invalid config: exclusive is not defined." {
 			t.Errorf("Error should be \"Fatal error reading config: jobmanager has an invalid config: exclusive is not defined.\" but error was '%s'.", err.Error())
 		}
 	}

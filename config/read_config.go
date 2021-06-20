@@ -91,5 +91,12 @@ func ReadConfig() (Config, error) {
 		}
 	}
 
+	// Check JobManager
+	for _, requiredQueueVeriable := range queueVariables {
+		if !viper.IsSet("jobmanager." + requiredQueueVeriable) {
+			return config, errors.New("Fatal error reading config: jobmanager has an invalid config: " + requiredQueueVeriable + " is not defined.")
+		}
+	}
+
 	return config, nil
 }
