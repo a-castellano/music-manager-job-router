@@ -1,0 +1,25 @@
+[server]
+
+host = "localhost"
+port = 5672
+user = "guest"
+password = "pass"
+
+[wrappers]
+
+  [wrappers.firstwrapper]
+  name = "firstwrapper"
+
+[jobs]
+name = "jobs"
+durable = true
+delete_when_unused = false
+exclusivee = false
+no_wait = false
+auto_ack = false
+
+[status]
+name = "status"
+
+[storage]
+name = "storage"
