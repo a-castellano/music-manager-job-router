@@ -12,6 +12,23 @@ See [Job Routing Docs](https://musicmanager.gitpages.windmaker.net/Music-Manager
 
 ## Config example
 
+This service requires the following config:
+
+### sever
+Contains Rabbitmq server access credentials.
+
+### wrappers
+Contains Rabbitmq queue configuration for each wrapper that will consume jobs.
+
+### jobs
+Contains Rabbitmq queue configuration for jobs queue where JobManager and wrappers send jobs to be routed by JobRouter
+
+### status
+Contains StatusManager service name
+
+### storage
+Contains StorageManager service name
+
 ```toml
 [server]
 
@@ -38,8 +55,8 @@ password = "pass"
   no_wait = false
   auto_ack = false
 
-[jobmanager]
-name = "jobmanager"
+[jobs]
+name = "jobs"
 durable = true
 delete_when_unused = false
 exclusive = false
