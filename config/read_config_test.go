@@ -136,3 +136,27 @@ func TestProcessWithInvalidJobManagerConfig(t *testing.T) {
 		}
 	}
 }
+
+func TestProcessWithInvalidStatusConfig(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/invalid_status_config/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method with status invalid config should fail.")
+	} else {
+		if err.Error() != "Fatal error reading config: status has an invalid config: name is not defined." {
+			t.Errorf("Error should be \"Fatal error reading config: status has an invalid config: name is not defined.\" but error was '%s'.", err.Error())
+		}
+	}
+}
+
+func TestProcessWithInvalidStorageConfig(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/invalid_storage_config/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method with storage invalid config should fail.")
+	} else {
+		if err.Error() != "Fatal error reading config: storage has an invalid config: name is not defined." {
+			t.Errorf("Error should be \"Fatal error reading config: storage has an invalid config: name is not defined.\" but error was '%s'.", err.Error())
+		}
+	}
+}
