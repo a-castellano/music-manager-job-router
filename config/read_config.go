@@ -98,5 +98,14 @@ func ReadConfig() (Config, error) {
 		}
 	}
 
+	// Check Status
+	if !viper.IsSet("status.name") {
+		return config, errors.New("Fatal error reading config: status has an invalid config: name is not defined.")
+	}
+	// Check Storage
+	if !viper.IsSet("storage.name") {
+		return config, errors.New("Fatal error reading config: storage has an invalid config: name is not defined.")
+	}
+
 	return config, nil
 }
