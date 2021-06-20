@@ -13,21 +13,15 @@ type Server struct {
 }
 
 type Queue struct {
-	Name             string
-	Durable          bool
-	DeleteWhenUnused bool
-	Exclusive        bool
-	NoWait           bool
-	NoLocal          bool
-	AutoACK          bool
+	Name string
 }
 
 type Config struct {
-	Server     Server
-	Wrappers   []Queue
-	Status     Queue
-	Storage    Queue
-	JobManager Queue
+	Server   Server
+	Wrappers []Queue
+	Status   string
+	Storage  string
+	Jobs     Queue
 }
 
 func ReadConfig() (Config, error) {
@@ -37,7 +31,7 @@ func ReadConfig() (Config, error) {
 	var envVariable string = "MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION"
 
 	serverVariables := []string{"host", "port", "user", "password"}
-	queueVariables := []string{"name", "durable", "delete_when_unused", "exclusive", "no_wait", "auto_ack"}
+	queueVariables := []string{"name"}
 
 	requiredConfigEntities := []string{"wrappers", "status", "storage", "jobs"}
 
@@ -89,6 +83,9 @@ func ReadConfig() (Config, error) {
 				return config, errors.New("Fatal error reading config: wrapper " + wrapperName + " has an invalid config: " + requiredQueueVeriable + " is not defined.")
 			}
 		}
+
+		wrapperQueueConfig := Queue{Name: viper.GetString("wrappers." + wrapperName + ".name")}
+		config.Wrappers = append(config.Wrappers, wrapperQueueConfig)
 	}
 
 	// Check JobManager
