@@ -9,3 +9,46 @@
 Service that routes jobs to Wrappers and Job Manager. When job finishes status is sended to **Status Manager**, if job finishes successfully it is also sended to **Storage Manager**.
 
 See [Job Routing Docs](https://musicmanager.gitpages.windmaker.net/Music-Manager-Docs/job-routing/) for more info.
+
+## Config example
+
+```toml
+[server]
+
+host = "localhost"
+port = 5672
+user = "guest"
+password = "pass"
+
+[wrappers]
+
+  [wrappers.firstwrapper]
+  name = "firstwrapper"
+  durable = true
+  delete_when_unused = false
+  exclusive = false
+  no_wait = false
+  auto_ack = false
+  
+  [wrappers.secondwrapper]
+  name = "secondwrapper"
+  durable = true
+  delete_when_unused = false
+  exclusive = false
+  no_wait = false
+  auto_ack = false
+
+[jobmanager]
+name = "jobmanager"
+durable = true
+delete_when_unused = false
+exclusive = false
+no_wait = false
+auto_ack = false
+
+[status]
+name = "status"
+
+[storage]
+name = "storage"
+```
