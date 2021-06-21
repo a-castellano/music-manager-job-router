@@ -93,16 +93,19 @@ func ReadConfig() (Config, error) {
 		if !viper.IsSet("jobs." + requiredQueueVeriable) {
 			return config, errors.New("Fatal error reading config: jobs has an invalid config: " + requiredQueueVeriable + " is not defined.")
 		}
+		config.Jobs = Queue{Name: viper.GetString("jobs.name")}
 	}
 
 	// Check Status
 	if !viper.IsSet("status.name") {
 		return config, errors.New("Fatal error reading config: status has an invalid config: name is not defined.")
 	}
+	config.Status = viper.GetString("status.name")
 	// Check Storage
 	if !viper.IsSet("storage.name") {
 		return config, errors.New("Fatal error reading config: storage has an invalid config: name is not defined.")
 	}
+	config.Storage = viper.GetString("storage.name")
 
 	return config, nil
 }
