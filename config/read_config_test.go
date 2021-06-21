@@ -1,3 +1,5 @@
+// +build integration_tests unit_tests
+
 package config
 
 import (
