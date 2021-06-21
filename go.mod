@@ -3,6 +3,7 @@ module github.com/a-castellano/music-manager-job-router
 go 1.16
 
 require (
+	github.com/a-castellano/music-manager-common-types v0.0.2 // indirect
 	github.com/coreos/bbolt v1.3.2 // indirect
 	github.com/coreos/etcd v3.3.13+incompatible // indirect
 	github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e // indirect
