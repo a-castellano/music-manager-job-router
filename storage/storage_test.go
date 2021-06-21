@@ -1,6 +1,6 @@
 // +build integration_tests unit_tests
 
-package status
+package storage
 
 import (
 	"bytes"
@@ -20,40 +20,40 @@ func (rtm *RoundTripperMock) RoundTrip(*http.Request) (*http.Response, error) {
 	return rtm.Response, rtm.RespErr
 }
 
-func TestUpdateJobStatusFailedStatusCode(t *testing.T) {
+func TestSendJobToStorageFailedStatusCode(t *testing.T) {
 
 	client := http.Client{Transport: &RoundTripperMock{Response: &http.Response{StatusCode: 500, Body: ioutil.NopCloser(bytes.NewBufferString(`
 not html code
 	`))}}}
 
-	var statusServiceName string = "Test"
+	var storageServiceName string = "Test"
 
 	var newJob commontypes.Job
 	newJob.ID = uuid.New()
 	newJob.Type = commontypes.RecordInfoRetrieval
 
-	err := UpdateJobStatus(client, statusServiceName, newJob)
+	err := sendInfoToStorageManager(client, storageServiceName, newJob)
 
 	if err == nil {
-		t.Errorf("TestUpdateJobStatusFailedStatusCode should fail.")
+		t.Errorf("TestSendJobToStorageFailedStatusCode should fail.")
 	}
 }
 
-func TestUpdateJobStatusSuccessStatusCode(t *testing.T) {
+func TestSendJobToStorageSuccessStatusCode(t *testing.T) {
 
 	client := http.Client{Transport: &RoundTripperMock{Response: &http.Response{StatusCode: 200, Body: ioutil.NopCloser(bytes.NewBufferString(`
 not html code
 	`))}}}
 
-	var statusServiceName string = "Test"
+	var storageServiceName string = "Test"
 
 	var newJob commontypes.Job
 	newJob.ID = uuid.New()
 	newJob.Type = commontypes.RecordInfoRetrieval
 
-	err := UpdateJobStatus(client, statusServiceName, newJob)
+	err := sendInfoToStorageManager(client, storageServiceName, newJob)
 
 	if err != nil {
-		t.Errorf("TestUpdateJobStatusSuccessStatusCode shouldn't fail.")
+		t.Errorf("TestSendJobToStorageSuccessStatusCode shouldn't fail.")
 	}
 }
