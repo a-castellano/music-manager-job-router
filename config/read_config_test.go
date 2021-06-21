@@ -1,3 +1,5 @@
+// +build integration_tests unit_tests
+
 package config
 
 import (
@@ -83,20 +85,8 @@ func TestProcessWrapperInvalid(t *testing.T) {
 	if err == nil {
 		t.Errorf("ReadConfig method with wrapper invalid config should fail.")
 	} else {
-		if err.Error() != "Fatal error reading config: wrapper firstwrapper has an invalid config: durable is not defined." {
-			t.Errorf("Error should be \"Fatal error reading config: wrapper firstwrapper has an invalid config: durable is not defined.\" but error was '%s'.", err.Error())
-		}
-	}
-}
-
-func TestProcessWrapperInvalid2(t *testing.T) {
-	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/server_one_wrapper_invalid_config2/")
-	_, err := ReadConfig()
-	if err == nil {
-		t.Errorf("ReadConfig method with wrapper invalid config should fail.")
-	} else {
-		if err.Error() != "Fatal error reading config: wrapper firstwrapper has an invalid config: auto_ack is not defined." {
-			t.Errorf("Error should be \"Fatal error reading config: wrapper firstwrapper has an invalid config: auto_ack is not defined.\" but error was '%s'.", err.Error())
+		if err.Error() != "Fatal error reading config: wrapper firstwrapper has an invalid config: name is not defined." {
+			t.Errorf("Error should be \"Fatal error reading config: wrapper firstwrapper has an invalid config: name is not defined.\" but error was '%s'.", err.Error())
 		}
 	}
 }
@@ -107,8 +97,8 @@ func TestProcessWrapperValidButSecondInvalid(t *testing.T) {
 	if err == nil {
 		t.Errorf("ReadConfig method with wrapper invalid config should fail.")
 	} else {
-		if err.Error() != "Fatal error reading config: wrapper secondwrapper has an invalid config: exclusive is not defined." {
-			t.Errorf("Error should be \"Fatal error reading config: wrapper secondwrapper has an invalid config: exclusive is not defined.\" but error was '%s'.", err.Error())
+		if err.Error() != "Fatal error reading config: wrapper secondwrapper has an invalid config: name is not defined." {
+			t.Errorf("Error should be \"Fatal error reading config: wrapper secondwrapper has an invalid config: name is not defined.\" but error was '%s'.", err.Error())
 		}
 	}
 }
@@ -131,8 +121,8 @@ func TestProcessWithInvalidJobManagerConfig(t *testing.T) {
 	if err == nil {
 		t.Errorf("ReadConfig method with jobs invalid config should fail.")
 	} else {
-		if err.Error() != "Fatal error reading config: jobs has an invalid config: exclusive is not defined." {
-			t.Errorf("Error should be \"Fatal error reading config: jobs has an invalid config: exclusive is not defined.\" but error was '%s'.", err.Error())
+		if err.Error() != "Fatal error reading config: jobs has an invalid config: name is not defined." {
+			t.Errorf("Error should be \"Fatal error reading config: jobs has an invalid config: name is not defined.\" but error was '%s'.", err.Error())
 		}
 	}
 }

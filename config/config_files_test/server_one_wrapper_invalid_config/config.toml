@@ -8,15 +8,10 @@ password = "pass"
 [wrappers]
 
   [wrappers.firstwrapper]
-  name = "firstwrapper"
+  namee = "firstwrapper"
 
 [jobs]
 name = "jobs"
-durable = true
-delete_when_unused = false
-exclusivee = false
-no_wait = false
-auto_ack = false
 
 [status]
 name = "status"
