@@ -11,7 +11,7 @@ password = "pass"
   name = "firstwrapper"
   
   [wrappers.secondwrapper]
-  name = "secondwrapper"
+  namee = "secondwrapper"
 
 [jobmanager]
 name = "jobmanager"

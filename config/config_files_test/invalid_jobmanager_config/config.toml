@@ -14,7 +14,7 @@ password = "pass"
   name = "secondwrapper"
 
 [jobmanager]
-name = "jobmanager"
+namee = "jobmanager"
 
 [status]
 name = "status"

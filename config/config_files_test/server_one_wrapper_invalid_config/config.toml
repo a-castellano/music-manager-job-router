@@ -8,7 +8,7 @@ password = "pass"
 [wrappers]
 
   [wrappers.firstwrapper]
-  name = "firstwrapper"
+  namee = "firstwrapper"
 
 [jobmanager]
 name = "jobmanager"
