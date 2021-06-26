@@ -13,11 +13,9 @@ password = "pass"
   [wrappers.secondwrapper]
   name = "secondwrapper"
 
-[wrapperoutput]
-name = "wrapperoutput"
-
 [jobmanager]
-namee = "jobmanager"
+name = "jobmanager"
+durable = true
 
 [status]
 name = "status"

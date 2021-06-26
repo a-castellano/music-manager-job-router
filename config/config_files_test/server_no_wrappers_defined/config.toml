@@ -7,6 +7,9 @@ password = "pass"
 
 [wrappers]
 
+[wrapperoutput]
+name = "wrapperoutput"
+
 [jobmanager]
 name = "jobmanager"
 

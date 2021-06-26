@@ -153,6 +153,32 @@ func TestProcessWithInvalidStorageConfig(t *testing.T) {
 	}
 }
 
+func TestProcessWithNoWrapperoutputConfig(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/invalid_config_no_wrapperoutput/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method with no wrapperoutput config should fail.")
+	} else {
+		requiredError := "Fatal error reading config: no wrapperoutput config was found."
+		if err.Error() != requiredError {
+			t.Errorf("Error should be \"%s\" but error was '%s'.", requiredError, err.Error())
+		}
+	}
+}
+
+func TestProcessWithWrapperoutputInvalidConfig(t *testing.T) {
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/invalid_config_no_wrapperoutput/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method with wrapperoutput invalid config should fail.")
+	} else {
+		requiredError := "Fatal error reading config: wrapperoutput has an invalid config: name is not defined."
+		if err.Error() != requiredError {
+			t.Errorf("Error should be \"%s\" but error was '%s'.", requiredError, err.Error())
+		}
+	}
+}
+
 func TestValisConfig(t *testing.T) {
 	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/valid_config/")
 	config, err := ReadConfig()

@@ -10,6 +10,9 @@ password = "pass"
   [wrappers.firstwrapper]
   namee = "firstwrapper"
 
+[wrapperoutput]
+name = "wrapperoutput"
+
 [jobmanager]
 name = "jobmanager"
 

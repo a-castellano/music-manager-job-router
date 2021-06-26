@@ -8,6 +8,9 @@
   [wrappers.secondwrapper]
   name = "secondwrapper"
 
+[wrapperoutput]
+name = "wrapperoutput"
+
 [jobmanager]
 name = "jobmanager"
 

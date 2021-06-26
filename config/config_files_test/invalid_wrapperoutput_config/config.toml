@@ -14,10 +14,11 @@ password = "pass"
   name = "secondwrapper"
 
 [wrapperoutput]
-name = "wrapperoutput"
+namee = "wrapperoutput"
 
 [jobmanager]
-namee = "jobmanager"
+name = "jobmanager"
+durable = true
 
 [status]
 name = "status"
