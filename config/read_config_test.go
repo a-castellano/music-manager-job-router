@@ -163,8 +163,15 @@ func TestProcessWithInvalidStorageConfig(t *testing.T) {
 
 func TestValisConfig(t *testing.T) {
 	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/valid_config/")
-	_, err := ReadConfig()
+	config, err := ReadConfig()
 	if err != nil {
 		t.Errorf("ReadConfig method with valid config shouldn't fail.")
 	}
+	if config.Server.Host != "localhost" {
+		t.Errorf("config.Server.Host shold be 'localhost' not '%s'", config.Server.Host)
+	}
+	if config.JobManager.Name != "jobs" {
+		t.Errorf("config.JobManager.Name shold be 'jobs' not '%s'", config.JobManager.Name)
+	}
+
 }
