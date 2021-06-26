@@ -7,13 +7,8 @@ password = "pass"
 
 [wrappers]
 
-[jobs]
-name = "jobs"
-durable = true
-delete_when_unused = false
-exclusivee = false
-no_wait = false
-auto_ack = false
+[jobmanager]
+name = "jobmanager"
 
 [status]
 name = "status"
