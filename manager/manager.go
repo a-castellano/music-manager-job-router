@@ -1,6 +1,7 @@
 package manager
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 
@@ -36,8 +37,56 @@ func ReadJobManagerJobs(config config.Config, wrapper_channel chan commontypes.J
 	)
 
 	if err != nil {
-		return fmt.Errorf("Failed to declare incoming queue: %w", err)
+		return fmt.Errorf("Failed to declare jobmanager queue: %w", err)
 	}
+
+	err = jobmanager_ch.Qos(
+		1,     // prefetch count
+		0,     // prefetch size
+		false, // global
+	)
+
+	if err != nil {
+		return fmt.Errorf("Failed to set jobmanager QoS: %w", err)
+	}
+
+	jobsToProcess, err := jobmanager_ch.Consume(
+		jobmanager_q.Name,
+		"",    // consumer
+		false, // auto-ack
+		false, // exclusive
+		false, // no-local
+		false, // no-wait
+		nil,   // args
+	)
+
+	if err != nil {
+		return fmt.Errorf("Failed to register a consumer: %w", err)
+	}
+
+	processJobs := make(chan bool)
+
+	go func() {
+		for job := range jobsToProcess {
+
+			die := false
+			jobToProcess, decodeJobErr := commontypes.DecodeJob(job.Body)
+
+			if decodeJobErr != nil {
+				err = errors.New("Empty job data received.")
+			} else {
+				if jobToProcess.Type == commontypes.Die {
+					die = true
+				}
+			}
+			if die {
+				break
+			}
+		}
+		return
+	}()
+
+	<-processJobs
 
 	return nil
 }
