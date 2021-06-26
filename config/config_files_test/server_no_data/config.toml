@@ -4,27 +4,15 @@
 
   [wrappers.firstwrapper]
   name = "firstwrapper"
-  durable = true
-  delete_when_unused = false
-  exclusive = false
-  no_wait = false
-  auto_ack = false
   
   [wrappers.secondwrapper]
   name = "secondwrapper"
-  durable = true
-  delete_when_unused = false
-  exclusive = false
-  no_wait = false
-  auto_ack = false
 
-[jobs]
-name = "jobs"
-durable = true
-delete_when_unused = false
-exclusivee = false
-no_wait = false
-auto_ack = false
+[wrapperoutput]
+name = "wrapperoutput"
+
+[jobmanager]
+name = "jobmanager"
 
 [status]
 name = "status"

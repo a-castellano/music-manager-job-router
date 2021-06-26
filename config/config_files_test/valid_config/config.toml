@@ -9,27 +9,16 @@ password = "pass"
 
   [wrappers.firstwrapper]
   name = "firstwrapper"
-  durable = true
-  delete_when_unused = false
-  exclusive = false
-  no_wait = false
-  auto_ack = false
   
   [wrappers.secondwrapper]
   name = "secondwrapper"
-  durable = true
-  delete_when_unused = false
-  exclusive = false
-  no_wait = false
-  auto_ack = false
 
-[jobs]
-name = "jobs"
+[wrapperoutput]
+name = "wrapperoutput"
+
+[jobmanager]
+name = "jobmanager"
 durable = true
-delete_when_unused = false
-exclusive = false
-no_wait = false
-auto_ack = false
 
 [status]
 name = "status"

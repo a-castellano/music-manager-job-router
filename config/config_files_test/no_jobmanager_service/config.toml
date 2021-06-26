@@ -16,11 +16,8 @@ password = "pass"
 [wrapperoutput]
 name = "wrapperoutput"
 
-[jobmanager]
-name = "jobmanager"
-
 [status]
 name = "status"
 
 [storage]
-namee = "storage"
+name = "storage"
