@@ -18,11 +18,12 @@ type Queue struct {
 }
 
 type Config struct {
-	Server     Server
-	Wrappers   []Queue
-	Status     string
-	Storage    string
-	JobManager Queue
+	Server        Server
+	Wrappers      []Queue
+	Status        string
+	Storage       string
+	JobManager    Queue
+	WrapperOutput Queue
 }
 
 func ReadConfig() (Config, error) {
@@ -34,7 +35,7 @@ func ReadConfig() (Config, error) {
 	serverVariables := []string{"host", "port", "user", "password"}
 	queueVariables := []string{"name"}
 
-	requiredConfigEntities := []string{"wrappers", "status", "storage", "jobmanager"}
+	requiredConfigEntities := []string{"wrappers", "status", "storage", "jobmanager", "wrapperoutput"}
 
 	viper := viperLib.New()
 
@@ -96,6 +97,15 @@ func ReadConfig() (Config, error) {
 	}
 	jobmanagerConfig := Queue{Name: viper.GetString("jobmanager.name")}
 	config.JobManager = jobmanagerConfig
+
+	// Check WrapperOutput
+	for _, requiredQueueVeriable := range queueVariables {
+		if !viper.IsSet("wrapperoutput." + requiredQueueVeriable) {
+			return config, errors.New("Fatal error reading config: wrapperoutput has an invalid config: " + requiredQueueVeriable + " is not defined.")
+		}
+	}
+	wrapperoutputConfig := Queue{Name: viper.GetString("wrapperoutput.name")}
+	config.WrapperOutput = wrapperoutputConfig
 
 	// Check Status
 	if !viper.IsSet("status.name") {

@@ -167,7 +167,7 @@ func TestProcessWithNoWrapperoutputConfig(t *testing.T) {
 }
 
 func TestProcessWithWrapperoutputInvalidConfig(t *testing.T) {
-	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/invalid_config_no_wrapperoutput/")
+	os.Setenv("MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION", "./config_files_test/invalid_wrapperoutput_config/")
 	_, err := ReadConfig()
 	if err == nil {
 		t.Errorf("ReadConfig method with wrapperoutput invalid config should fail.")
