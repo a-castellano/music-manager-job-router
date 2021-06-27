@@ -77,6 +77,14 @@ func ReadJobManagerJobs(config config.Config, wrapperChannel chan commontypes.Jo
 			} else {
 				if jobToProcess.Type == commontypes.Die {
 					die = true
+				} else {
+					// This function only reads meesages from jobManager
+					if jobToProcess.LastOrigin != "JobManager" {
+						jobToProcess.Error = "LastOrigin can only be 'JobManager'"
+						job.Ack(false)
+						processJobs <- false
+						wrapperChannel <- jobToProcess
+					}
 				}
 			}
 			if die {
