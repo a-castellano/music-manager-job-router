@@ -28,6 +28,12 @@ func TestSendDie(t *testing.T) {
 	testConfig.Server.Password = "guest"
 	testConfig.JobManager.Name = "JobManager"
 
+	firstwrapper := config.Queue{Name: "first"}
+	secondwrapper := config.Queue{Name: "second"}
+
+	testConfig.Wrappers = append(testConfig.Wrappers, firstwrapper)
+	testConfig.Wrappers = append(testConfig.Wrappers, secondwrapper)
+
 	var job commontypes.Job
 
 	job.ID = uuid.New()
@@ -73,12 +79,28 @@ func TestSendDie(t *testing.T) {
 		t.Errorf("ReadJobManagerJobs should return no errors when die is processed.")
 	}
 
-	resultJob := <-wrapperChannel
-	if resultJob.ID != job.ID {
+	firstResultJob := <-wrapperChannel
+	secondResultJob := <-wrapperChannel
+	if firstResultJob.ID != job.ID {
 		t.Errorf("Original and result Jobs should have same ID.")
 	}
-	if resultJob.Type != commontypes.Die {
+	if firstResultJob.Type != commontypes.Die {
 		t.Errorf("Result Jobs type should be Die.")
+	}
+	expectedFirstOrigin := "first"
+	if firstResultJob.RequiredOrigin != expectedFirstOrigin {
+		t.Errorf("Result Job RequiredOrigin whould be '%s', not '%s'.", expectedFirstOrigin, firstResultJob.RequiredOrigin)
+	}
+
+	if secondResultJob.ID != job.ID {
+		t.Errorf("Original and result Jobs should have same ID.")
+	}
+	if secondResultJob.Type != commontypes.Die {
+		t.Errorf("Result Jobs type should be Die.")
+	}
+	expectedSecondOrigin := "second"
+	if secondResultJob.RequiredOrigin != expectedSecondOrigin {
+		t.Errorf("Second Result Job RequiredOrigin whould be '%s', not '%s'.", expectedSecondOrigin, secondResultJob.RequiredOrigin)
 	}
 
 }
