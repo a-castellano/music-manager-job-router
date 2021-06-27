@@ -10,7 +10,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
-func ReadJobManagerJobs(config config.Config, wrapper_channel chan commontypes.Job) error {
+func ReadJobManagerJobs(config config.Config, wrapperChannel chan commontypes.Job) error {
 
 	connection_string := "amqp://" + config.Server.User + ":" + config.Server.Password + "@" + config.Server.Host + ":" + strconv.Itoa(config.Server.Port) + "/"
 	conn, err := amqp.Dial(connection_string)
@@ -80,7 +80,10 @@ func ReadJobManagerJobs(config config.Config, wrapper_channel chan commontypes.J
 				}
 			}
 			if die {
-				break
+				job.Ack(false)
+				processJobs <- false
+				wrapperChannel <- jobToProcess
+				return
 			}
 		}
 		return
