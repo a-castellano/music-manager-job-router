@@ -81,8 +81,13 @@ func ReadJobManagerJobs(config config.Config, wrapperChannel chan commontypes.Jo
 					// This function  reads meesages from jobManager
 					if jobToProcess.LastOrigin != "JobManager" {
 						jobToProcess.Error = "LastOrigin can only be 'JobManager'"
+						jobToProcess.Status = false
 						job.Ack(false)
-						processJobs <- false
+						processJobs <- true
+						wrapperChannel <- jobToProcess
+					} else {
+						jobToProcess.LastOrigin = "JobRouter"
+						processJobs <- true
 						wrapperChannel <- jobToProcess
 					}
 				}
