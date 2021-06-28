@@ -4,11 +4,11 @@ package storage
 
 import (
 	"bytes"
-	commontypes "github.com/a-castellano/music-manager-common-types/types"
-	uuid "github.com/google/uuid"
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	commontypes "github.com/a-castellano/music-manager-common-types/types"
 )
 
 type RoundTripperMock struct {
@@ -29,7 +29,7 @@ not html code
 	var storageServiceName string = "Test"
 
 	var newJob commontypes.Job
-	newJob.ID = uuid.New()
+	newJob.ID = "sadasas2w21"
 	newJob.Type = commontypes.RecordInfoRetrieval
 
 	err := sendInfoToStorageManager(client, storageServiceName, newJob)
@@ -48,7 +48,7 @@ not html code
 	var storageServiceName string = "Test"
 
 	var newJob commontypes.Job
-	newJob.ID = uuid.New()
+	newJob.ID = "sadasas2w21"
 	newJob.Type = commontypes.RecordInfoRetrieval
 
 	err := sendInfoToStorageManager(client, storageServiceName, newJob)
