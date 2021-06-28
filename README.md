@@ -20,8 +20,12 @@ Contains Rabbitmq server access credentials.
 ### wrappers
 Contains Rabbitmq queue configuration for each wrapper that will consume jobs.
 
-### jobs
-Contains Rabbitmq queue configuration for jobs queue where JobManager and wrappers send jobs to be routed by JobRouter
+### jobmanager
+Contains Rabbitmq queue configuration for jobs queue where JobManager sends jobs to be routed by JobRouter
+
+### wrapperoutput
+Contains Rabbitmq queue configuration for jobs queue where wrappers send jobs to be routed or finished by JobRouter
+
 
 ### status
 Contains StatusManager service name
@@ -41,31 +45,21 @@ password = "pass"
 
   [wrappers.firstwrapper]
   name = "firstwrapper"
-  durable = true
-  delete_when_unused = false
-  exclusive = false
-  no_wait = false
-  auto_ack = false
   
   [wrappers.secondwrapper]
   name = "secondwrapper"
-  durable = true
-  delete_when_unused = false
-  exclusive = false
-  no_wait = false
-  auto_ack = false
 
-[jobs]
-name = "jobs"
+[wrapperoutput]
+name = "wrapperoutput"
+
+[jobmanager]
+name = "jobmanager"
 durable = true
-delete_when_unused = false
-exclusive = false
-no_wait = false
-auto_ack = false
 
 [status]
 name = "status"
 
 [storage]
 name = "storage"
+
 ```

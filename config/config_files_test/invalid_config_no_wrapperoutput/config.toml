@@ -13,14 +13,12 @@ password = "pass"
   [wrappers.secondwrapper]
   name = "secondwrapper"
 
-[wrapperoutput]
-name = "wrapperoutput"
-
 [jobmanager]
 name = "jobmanager"
+durable = true
 
 [status]
 name = "status"
 
 [storage]
-namee = "storage"
+name = "storage"

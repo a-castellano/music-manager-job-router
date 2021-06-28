@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+
 	viperLib "github.com/spf13/viper"
 )
 
@@ -13,21 +14,16 @@ type Server struct {
 }
 
 type Queue struct {
-	Name             string
-	Durable          bool
-	DeleteWhenUnused bool
-	Exclusive        bool
-	NoWait           bool
-	NoLocal          bool
-	AutoACK          bool
+	Name string
 }
 
 type Config struct {
-	Server     Server
-	Wrappers   []Queue
-	Status     Queue
-	Storage    Queue
-	JobManager Queue
+	Server        Server
+	Wrappers      []Queue
+	Status        string
+	Storage       string
+	JobManager    Queue
+	WrapperOutput Queue
 }
 
 func ReadConfig() (Config, error) {
@@ -37,9 +33,9 @@ func ReadConfig() (Config, error) {
 	var envVariable string = "MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION"
 
 	serverVariables := []string{"host", "port", "user", "password"}
-	queueVariables := []string{"name", "durable", "delete_when_unused", "exclusive", "no_wait", "auto_ack"}
+	queueVariables := []string{"name"}
 
-	requiredConfigEntities := []string{"wrappers", "status", "storage", "jobs"}
+	requiredConfigEntities := []string{"wrappers", "status", "storage", "jobmanager", "wrapperoutput"}
 
 	viper := viperLib.New()
 
@@ -89,23 +85,39 @@ func ReadConfig() (Config, error) {
 				return config, errors.New("Fatal error reading config: wrapper " + wrapperName + " has an invalid config: " + requiredQueueVeriable + " is not defined.")
 			}
 		}
+		wrapperConfig := Queue{Name: viper.GetString("wrappers." + wrapperName + ".name")}
+		config.Wrappers = append(config.Wrappers, wrapperConfig)
 	}
 
 	// Check JobManager
 	for _, requiredQueueVeriable := range queueVariables {
-		if !viper.IsSet("jobs." + requiredQueueVeriable) {
-			return config, errors.New("Fatal error reading config: jobs has an invalid config: " + requiredQueueVeriable + " is not defined.")
+		if !viper.IsSet("jobmanager." + requiredQueueVeriable) {
+			return config, errors.New("Fatal error reading config: jobmanager has an invalid config: " + requiredQueueVeriable + " is not defined.")
 		}
 	}
+	jobmanagerConfig := Queue{Name: viper.GetString("jobmanager.name")}
+	config.JobManager = jobmanagerConfig
+
+	// Check WrapperOutput
+	for _, requiredQueueVeriable := range queueVariables {
+		if !viper.IsSet("wrapperoutput." + requiredQueueVeriable) {
+			return config, errors.New("Fatal error reading config: wrapperoutput has an invalid config: " + requiredQueueVeriable + " is not defined.")
+		}
+	}
+	wrapperoutputConfig := Queue{Name: viper.GetString("wrapperoutput.name")}
+	config.WrapperOutput = wrapperoutputConfig
 
 	// Check Status
 	if !viper.IsSet("status.name") {
 		return config, errors.New("Fatal error reading config: status has an invalid config: name is not defined.")
 	}
+	config.Status = viper.GetString("status.name")
+
 	// Check Storage
 	if !viper.IsSet("storage.name") {
 		return config, errors.New("Fatal error reading config: storage has an invalid config: name is not defined.")
 	}
+	config.Storage = viper.GetString("storage.name")
 
 	return config, nil
 }
