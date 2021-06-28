@@ -3,7 +3,7 @@ module github.com/a-castellano/music-manager-job-router
 go 1.16
 
 require (
-	github.com/a-castellano/music-manager-common-types v0.0.2 // indirect
+	github.com/a-castellano/music-manager-common-types v0.0.4
 	github.com/coreos/bbolt v1.3.2 // indirect
 	github.com/coreos/etcd v3.3.13+incompatible // indirect
 	github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e // indirect
@@ -24,8 +24,8 @@ require (
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.8.0
-	github.com/streadway/amqp v1.0.0 // indirect
+	github.com/spf13/viper v1.8.1
+	github.com/streadway/amqp v1.0.0
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5 // indirect
 	github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2 // indirect
 	go.etcd.io/bbolt v1.3.2 // indirect
