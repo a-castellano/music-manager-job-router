@@ -8,7 +8,6 @@ import (
 
 	commontypes "github.com/a-castellano/music-manager-common-types/types"
 	"github.com/a-castellano/music-manager-job-router/config"
-	"github.com/google/uuid"
 	"github.com/streadway/amqp"
 )
 
@@ -36,7 +35,7 @@ func TestSendDie(t *testing.T) {
 
 	var job commontypes.Job
 
-	job.ID = uuid.New()
+	job.ID = "dassa111a"
 	job.Status = true
 	job.Finished = false
 	job.Type = commontypes.Die
@@ -117,7 +116,7 @@ func TestSendJobFromInvalidOrigin(t *testing.T) {
 
 	var job commontypes.Job
 
-	job.ID = uuid.New()
+	job.ID = "dassa111a"
 	job.Status = true
 	job.Finished = false
 	job.Type = commontypes.ArtistInfoRetrieval
