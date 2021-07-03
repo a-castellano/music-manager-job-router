@@ -100,6 +100,10 @@ func ReadJobManagerJobs(config config.Config, wrapperChannel chan commontypes.Jo
 					jobToWrapper.RequiredOrigin = wrapper.Name
 					wrapperChannel <- jobToWrapper
 				}
+				// Kill RouteJobs Function
+				jobToWrapperSender := jobToProcess
+				jobToWrapperSender.RequiredOrigin = "JobRouter"
+				wrapperChannel <- jobToWrapperSender
 				return
 			}
 		}
