@@ -12,7 +12,9 @@ import (
 func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job) error {
 
 	wrapperQueues := make(map[string]amqp.Queue)
+	wrapperQueuesPosition := make(map[string]int)
 	var wrapperOrder []string
+	var wrapperCounter int = 0
 
 	connection_string := "amqp://" + config.Server.User + ":" + config.Server.Password + "@" + config.Server.Host + ":" + strconv.Itoa(config.Server.Port) + "/"
 	conn, err := amqp.Dial(connection_string)
@@ -41,7 +43,9 @@ func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job) error 
 			return fmt.Errorf("Failed to declare queue %s in RouteJobs: %w", wrapper.Name, err)
 		}
 		wrapperQueues[wrapper.Name] = wrapperQueue
+		wrapperQueuesPosition[wrapper.Name] = wrapperCounter
 		wrapperOrder = append(wrapperOrder, wrapper.Name)
+		wrapperCounter++
 	}
 
 	for {
@@ -77,7 +81,7 @@ func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job) error 
 							Body:         encodedJob,
 						})
 					if err != nil {
-						return fmt.Errorf("Failed to send job to qeue %s in RouteJobs: %w", wrapperOrder[0], err)
+						return fmt.Errorf("Failed to send job to qeue %s in RouteJobs: %w", jobToRoute.RequiredOrigin, err)
 					}
 
 				} //else{
@@ -85,7 +89,33 @@ func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job) error 
 				//}
 			}
 		} else {
-			// Job already routed of Die sent
+			// Job has already been proccesed by another of Die signal has been sent
+			if jobToRoute.Status == false {
+				//Job failed - check if there are wrappers left to process this job
+				if jobToRoute.RequiredOrigin == "" && wrapperQueuesPosition[jobToRoute.LastOrigin] < len(wrapperOrder) {
+					// Send job to next wrapper
+					nextWrapper := wrapperOrder[wrapperQueuesPosition[jobToRoute.LastOrigin]+1]
+					err = ch.Publish(
+						"",          // exchange
+						nextWrapper, // routing key
+						false,       // mandatory
+						false,
+						amqp.Publishing{
+							DeliveryMode: amqp.Persistent,
+							ContentType:  "text/plain",
+							Body:         encodedJob,
+						})
+					if err != nil {
+						return fmt.Errorf("Failed to send job to qeue %s in RouteJobs: %w", nextWrapper, err)
+					}
+
+				} else {
+					// No more wrappers left, job is marked as failed
+
+				}
+			} else {
+				// jobFinished or is a Die function
+			}
 		}
 	}
 
