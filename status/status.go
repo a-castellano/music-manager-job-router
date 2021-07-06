@@ -3,8 +3,9 @@ package status
 import (
 	"encoding/json"
 	"errors"
-	commontypes "github.com/a-castellano/music-manager-common-types/types"
 	"net/http"
+
+	commontypes "github.com/a-castellano/music-manager-common-types/types"
 
 	"bytes"
 )

@@ -3,13 +3,14 @@ package storage
 import (
 	"encoding/json"
 	"errors"
-	commontypes "github.com/a-castellano/music-manager-common-types/types"
 	"net/http"
+
+	commontypes "github.com/a-castellano/music-manager-common-types/types"
 
 	"bytes"
 )
 
-func sendInfoToStorageManager(client http.Client, storageService string, job commontypes.Job) error {
+func SendInfoToStorageManager(client http.Client, storageService string, job commontypes.Job) error {
 
 	jsonJob, _ := json.Marshal(job)
 	url := "http://" + storageService

@@ -2,14 +2,17 @@ package wrappers
 
 import (
 	"fmt"
+	"net/http"
 	"strconv"
 
 	commontypes "github.com/a-castellano/music-manager-common-types/types"
 	"github.com/a-castellano/music-manager-job-router/config"
+	"github.com/a-castellano/music-manager-job-router/status"
+	"github.com/a-castellano/music-manager-job-router/storage"
 	"github.com/streadway/amqp"
 )
 
-func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job) error {
+func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job, client http.Client) error {
 
 	wrapperQueues := make(map[string]amqp.Queue)
 	wrapperQueuesPosition := make(map[string]int)
@@ -111,10 +114,31 @@ func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job) error 
 
 				} else {
 					// No more wrappers left, job is marked as failed
-
+					jobToRoute.Finished = true
+					err = status.UpdateJobStatus(client, config.Status, jobToRoute)
+					if err != nil {
+						return fmt.Errorf("Failed to send job to status Manager in RouteJobs: %w", err)
+					}
 				}
 			} else {
 				// jobFinished or is a Die function
+				if jobToRoute.RequiredOrigin == "JobRouter" {
+					if jobToRoute.Type == commontypes.Die {
+						break
+					} else {
+						return fmt.Errorf("Only JobType allowed when RequiredOrigin is JobRouter is Die.")
+					}
+				}
+				jobToRoute.Finished = true
+				err = status.UpdateJobStatus(client, config.Status, jobToRoute)
+				if err != nil {
+					return fmt.Errorf("Failed to send job to status Manager in RouteJobs: %w", err)
+				}
+				err = storage.SendInfoToStorageManager(client, config.Storage, jobToRoute)
+				if err != nil {
+					return fmt.Errorf("Failed to send job to status Manager in RouteJobs: %w", err)
+				}
+
 			}
 		}
 	}
