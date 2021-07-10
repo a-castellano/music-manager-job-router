@@ -49,6 +49,7 @@ func TestReceiveDie(t *testing.T) {
 	job.Finished = false
 	job.Type = commontypes.Die
 	job.LastOrigin = "JobRouter"
+	job.RequiredOrigin = "JobRouter"
 
 	wrapperChannel := make(chan commontypes.Job)
 
