@@ -116,6 +116,55 @@ func TestReceiveFinishedJobAndDie(t *testing.T) {
 
 }
 
+func TestReceiveFailedJobNoMoreWrappersJobAndDie(t *testing.T) {
+
+	var testConfig config.Config
+
+	testConfig.Server.Host = "rabbitmq"
+	testConfig.Server.Port = 5672
+	testConfig.Server.User = "guest"
+	testConfig.Server.Password = "guest"
+	testConfig.JobManager.Name = "JobManager"
+
+	firstwrapper := config.Queue{Name: "first"}
+
+	testConfig.Wrappers = append(testConfig.Wrappers, firstwrapper)
+
+	var dieJob commontypes.Job
+	var unfinishedJob commontypes.Job
+
+	dieJob.ID = "dassa111a"
+	dieJob.Status = true
+	dieJob.Finished = false
+	dieJob.Type = commontypes.Die
+	dieJob.LastOrigin = "JobRouter"
+	dieJob.RequiredOrigin = "JobRouter"
+
+	unfinishedJob.ID = "dassa111a"
+	unfinishedJob.Status = false
+	unfinishedJob.Finished = false
+	unfinishedJob.Type = commontypes.ArtistInfoRetrieval
+	unfinishedJob.LastOrigin = "first"
+
+	wrapperChannel := make(chan commontypes.Job)
+
+	go func() {
+		wrapperChannel <- unfinishedJob
+		wrapperChannel <- dieJob
+	}()
+
+	client := http.Client{Transport: &RoundTripperMock{Response: &http.Response{StatusCode: 200, Body: ioutil.NopCloser(bytes.NewBufferString(`
+	not html code
+		`))}}}
+
+	err := RouteJobs(testConfig, wrapperChannel, client)
+
+	if err != nil {
+		t.Errorf("TestReceiveFailedJobNoMoreWrappersJobAndDie should end without errors.")
+	}
+
+}
+
 //func TestReceive(t *testing.T) {
 //
 //	var testConfig config.Config

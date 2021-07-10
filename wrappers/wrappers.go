@@ -50,7 +50,6 @@ func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job, client
 		wrapperOrder = append(wrapperOrder, wrapper.Name)
 		wrapperCounter++
 	}
-
 	for {
 		jobToRoute := <-wrapperChannel
 		encodedJob, _ := commontypes.EncodeJob(jobToRoute)
@@ -94,10 +93,12 @@ func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job, client
 		} else {
 			// Job has already been proccesed by another of Die signal has been sent
 			if jobToRoute.Status == false {
+
 				//Job failed - check if there are wrappers left to process this job
-				if jobToRoute.RequiredOrigin == "" && wrapperQueuesPosition[jobToRoute.LastOrigin] < len(wrapperOrder) {
+				nextPosition := wrapperQueuesPosition[jobToRoute.LastOrigin] + 1
+				if jobToRoute.RequiredOrigin == "" && nextPosition < len(wrapperOrder) {
 					// Send job to next wrapper
-					nextWrapper := wrapperOrder[wrapperQueuesPosition[jobToRoute.LastOrigin]+1]
+					nextWrapper := wrapperOrder[nextPosition]
 					err = ch.Publish(
 						"",          // exchange
 						nextWrapper, // routing key
