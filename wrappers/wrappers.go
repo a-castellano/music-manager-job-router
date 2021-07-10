@@ -2,8 +2,6 @@ package wrappers
 
 import (
 	"fmt"
-	"log"
-	"log/syslog"
 	"net/http"
 	"strconv"
 
@@ -15,10 +13,6 @@ import (
 )
 
 func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job, client http.Client) error {
-
-	syslogger, err := syslog.New(syslog.LOG_INFO, "RouteJobs")
-	log.SetOutput(syslogger)
-	log.Println("Start")
 
 	wrapperQueues := make(map[string]amqp.Queue)
 	wrapperQueuesPosition := make(map[string]int)
@@ -57,11 +51,9 @@ func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job, client
 		wrapperCounter++
 	}
 
-	log.Println("Before for")
 	for {
 		jobToRoute := <-wrapperChannel
 		encodedJob, _ := commontypes.EncodeJob(jobToRoute)
-		log.Println("jobToRoute.LastOrigin is", jobToRoute.LastOrigin)
 		if jobToRoute.LastOrigin == "JobManager" {
 			if jobToRoute.RequiredOrigin == "" {
 				// Send to first wrapper
@@ -101,7 +93,6 @@ func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job, client
 			}
 		} else {
 			// Job has already been proccesed by another of Die signal has been sent
-			log.Println("jobToRoute.Status is", jobToRoute.Status)
 			if jobToRoute.Status == false {
 				//Job failed - check if there are wrappers left to process this job
 				if jobToRoute.RequiredOrigin == "" && wrapperQueuesPosition[jobToRoute.LastOrigin] < len(wrapperOrder) {
@@ -131,9 +122,7 @@ func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job, client
 				}
 			} else {
 				// jobFinished or is a Die function
-				log.Println("jobToRoute.RequiredOrigin is", jobToRoute.RequiredOrigin)
 				if jobToRoute.RequiredOrigin == "JobRouter" {
-					log.Println("jobToRoute.Type is", jobToRoute.Type)
 
 					if jobToRoute.Type == commontypes.Die {
 						break
