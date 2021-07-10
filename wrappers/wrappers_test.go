@@ -615,3 +615,51 @@ func TestReceiveJobRequiredOriginFirstWrapperJobAndDie(t *testing.T) {
 		t.Errorf("job and decodedJob should have the same ID.")
 	}
 }
+
+func TestReceiveJobRequiredOriginDoesNotExist(t *testing.T) {
+
+	client := http.Client{Transport: &RoundTripperMock{Response: &http.Response{StatusCode: 200, Body: ioutil.NopCloser(bytes.NewBufferString(`
+	not html code
+		`))}}}
+
+	var testConfig config.Config
+
+	testConfig.Server.Host = "rabbitmq"
+	testConfig.Server.Port = 5672
+	testConfig.Server.User = "guest"
+	testConfig.Server.Password = "guest"
+	testConfig.JobManager.Name = "JobManager"
+
+	firstwrapper := config.Queue{Name: "first"}
+	secondwrapper := config.Queue{Name: "second"}
+
+	testConfig.Wrappers = append(testConfig.Wrappers, firstwrapper)
+	testConfig.Wrappers = append(testConfig.Wrappers, secondwrapper)
+
+	var unfinishedJob commontypes.Job
+
+	unfinishedJob.ID = "TestReceiveFailedJobOneMoreWrapperJobAndDie"
+	unfinishedJob.Status = true
+	unfinishedJob.Finished = false
+	unfinishedJob.Type = commontypes.ArtistInfoRetrieval
+	unfinishedJob.LastOrigin = "JobManager"
+	unfinishedJob.RequiredOrigin = "third"
+
+	wrapperChannel := make(chan commontypes.Job)
+
+	go func() {
+		wrapperChannel <- unfinishedJob
+	}()
+
+	err := RouteJobs(testConfig, wrapperChannel, client)
+
+	if err == nil {
+		t.Errorf("TestReceiveJobRequiredOriginDoesNotExist should fail")
+	}
+
+	requiredError := "Wrapper 'third' does not exist."
+	if err.Error() != requiredError {
+		t.Errorf("TestReceiveJobRequiredOriginDoesNotExist error should be %s, not %s.", requiredError, err.Error())
+	}
+
+}
