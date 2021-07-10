@@ -69,6 +69,45 @@ func TestReceiveDie(t *testing.T) {
 
 }
 
+func TestReceiveNotDieRequiredOriginJobRouter(t *testing.T) {
+
+	var testConfig config.Config
+
+	testConfig.Server.Host = "rabbitmq"
+	testConfig.Server.Port = 5672
+	testConfig.Server.User = "guest"
+	testConfig.Server.Password = "guest"
+	testConfig.JobManager.Name = "JobManager"
+
+	firstwrapper := config.Queue{Name: "first"}
+
+	testConfig.Wrappers = append(testConfig.Wrappers, firstwrapper)
+
+	var job commontypes.Job
+
+	job.ID = "dassa111a"
+	job.Status = true
+	job.Finished = false
+	job.Type = commontypes.ArtistInfoRetrieval
+	job.LastOrigin = "JobRouter"
+	job.RequiredOrigin = "JobRouter"
+
+	wrapperChannel := make(chan commontypes.Job)
+
+	go func() { wrapperChannel <- job }()
+
+	client := http.Client{Transport: &RoundTripperMock{Response: &http.Response{StatusCode: 200, Body: ioutil.NopCloser(bytes.NewBufferString(`
+	not html code
+		`))}}}
+
+	err := RouteJobs(testConfig, wrapperChannel, client)
+
+	if err == nil {
+		t.Errorf("TestReceiveNotDieRequiredOriginJobRouter should end with errors.")
+	}
+
+}
+
 func TestReceiveFinishedJobAndDie(t *testing.T) {
 
 	var testConfig config.Config
