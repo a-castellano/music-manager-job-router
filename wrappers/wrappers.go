@@ -86,9 +86,9 @@ func RouteJobs(config config.Config, wrapperChannel chan commontypes.Job, client
 						return fmt.Errorf("Failed to send job to qeue %s in RouteJobs: %w", jobToRoute.RequiredOrigin, err)
 					}
 
-				} //else{
-				//RequiredOrigin does not exists
-				//}
+				} else {
+					return fmt.Errorf("Wrapper '%s' does not exist.", jobToRoute.RequiredOrigin)
+				}
 			}
 		} else {
 			// Job has already been proccesed by another of Die signal has been sent
