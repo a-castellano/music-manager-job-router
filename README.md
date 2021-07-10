@@ -10,7 +10,7 @@ Service that routes jobs to Wrappers and Job Manager. When job finishes status i
 
 See [Job Routing Docs](https://musicmanager.gitpages.windmaker.net/Music-Manager-Docs/job-routing/) for more info.
 
-## Config example
+## Service Config
 
 This service requires the following config:
 
@@ -33,6 +33,8 @@ Contains StatusManager service name
 ### storage
 Contains StorageManager service name
 
+## Config example
+This service will look for its config in **/etc/music-manager/config.toml**, parent folder can be changed setting the environment variable **MUSIC_MANAGER_SERVICE_CONFIG_FILE_LOCATION**.
 ```toml
 [server]
 
