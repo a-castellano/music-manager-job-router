@@ -32,7 +32,7 @@ not html code
 	newJob.ID = "sadasas2w21"
 	newJob.Type = commontypes.RecordInfoRetrieval
 
-	err := sendInfoToStorageManager(client, storageServiceName, newJob)
+	err := SendInfoToStorageManager(client, storageServiceName, newJob)
 
 	if err == nil {
 		t.Errorf("TestSendJobToStorageFailedStatusCode should fail.")
@@ -51,7 +51,7 @@ not html code
 	newJob.ID = "sadasas2w21"
 	newJob.Type = commontypes.RecordInfoRetrieval
 
-	err := sendInfoToStorageManager(client, storageServiceName, newJob)
+	err := SendInfoToStorageManager(client, storageServiceName, newJob)
 
 	if err != nil {
 		t.Errorf("TestSendJobToStorageSuccessStatusCode shouldn't fail.")
